@@ -1,5 +1,6 @@
 package com.ejercicio.estructuras.controlador;
 
+import java.util.Random;
 import org.springframework.http.MediaType; //Especificamos el tipo de contenido de respuesta (texto plano)
 import org.springframework.web.bind.annotation.PostMapping; //Anotacion para mapear peticiones HTTP POST a los metodos del Controlador
 import org.springframework.web.bind.annotation.RequestParam; //Anotacion para extraer parametros de la solicitud HTTP
@@ -205,6 +206,43 @@ public class ControladorEjercicios {
 
 		return mensaje;
 
+	}
+
+	/**
+	 * Generamos una contraseña aleatoria de la longitud especificada por el
+	 * usuario. Este método procesa una solicitud HTTP POST en la ruta
+	 * `/generarContrasena`. Recibe un número entero que indica la longitud deseada
+	 * para la contraseña. Utiliza un conjunto de caracteres (letras mayúsculas,
+	 * minúsculas, números y símbolos) para construir la contraseña aleatoria y la
+	 * devuelve como texto plano.
+	 * 
+	 * @param longitud La longitud de la contraseña que se desea generar. Debe ser
+	 *                 un entero positivo.
+	 * @return Un mensaje de texto plano que contiene la contraseña generada.
+	 */
+
+	@PostMapping(value = "/generarContrasena", produces = MediaType.TEXT_PLAIN_VALUE)
+	public String generarContrasena(@RequestParam int longitud) {
+
+		// Definimos los caracteres que pueden formar parte de la contraseña.
+		char[] caracteres = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()".toCharArray();
+
+		// Usamos StringBuilder para construir la contraseña.
+		StringBuilder contrasena = new StringBuilder(longitud);
+		// Creamos un objeto Random para seleccionar caracteres al azar.
+		Random caracterAleatorio = new Random();
+
+		// Generamos una contraseña de la longitud solicitada.
+		for (int i = 0; i < longitud; i++) {
+			// Generamos en cada iteracion un caracter aleatorio entre 0 y el numero de
+			// catacteres
+			// y lo agregamos a la contraseña seleccionando un indice aleatorio dentro del
+			// array de caracteres
+			contrasena.append(caracteres[caracterAleatorio.nextInt(caracteres.length)]);
+		}
+
+		// Devolvemos la contraseña generada como texto plano.
+		return "Contraseña generada: " + contrasena.toString();
 	}
 
 }
