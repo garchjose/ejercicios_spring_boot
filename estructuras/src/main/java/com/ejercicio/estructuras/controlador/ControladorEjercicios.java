@@ -57,4 +57,67 @@ public class ControladorEjercicios {
 		return resultado; // Devolvemos la tabla como texto plano
 	}
 
+	/**
+	 * Calculamos el promedio de una lista de calificaciones.
+	 * 
+	 * Este método procesa una solicitud HTTP POST en la ruta
+	 * `/promedioCalificaciones`. Recibe una lista de calificaciones en formato de
+	 * cadena separada por comas, calcula su promedio y determina si la calificación
+	 * promedio es suficiente para aprobar (>= 5). Si ocurre un error en el formato
+	 * de las calificaciones, devuelve un mensaje de error.
+	 * 
+	 * @param calificaciones Una cadena con calificaciones separadas por comas. Cada
+	 *                       calificación debe ser un número válido.
+	 * @return El promedio de las calificaciones acompañado de un mensaje que indica
+	 *         si el promedio es "Aprobado" o "Suspenso". Si hay un error de
+	 *         formato, devuelve un mensaje de error explicativo.
+	 */
+
+	@PostMapping(value = "/promedioCalificaciones", produces = MediaType.TEXT_PLAIN_VALUE)
+
+	public String promedioCalificaciones(@RequestParam String calificaciones) {
+
+		// Dividimos la cadena de calificaciones en un array usando la como de separador
+
+		String[] calificacionesArray = calificaciones.split(",");
+
+		double suma = 0; // Inicializamos la suma de todas las calificaciones obtenidas (notas)
+		int cantidad = 0; // Inicializamos la cantidad de calificaciones (numero de modulos)
+
+		try {
+			// Iteramos sobre el array de las calificaciones separadas por comas
+			for (String calificacion : calificacionesArray) {
+				// Convertimos cada calificacion a un double quitando mediante trim los espacios
+				// en blanco
+				double valor = Double.parseDouble(calificacion.trim());
+				// Sumamos el valor con la suma de notas pasadas por el usuario para actualizar
+				// del contenido de la suma
+				suma += valor;
+				// Incrementamos en una unidad su valor
+				cantidad++;
+			}
+
+			/*
+			 * Calculamos el promedio diviendo la suma de calificaciones (notas) entre la
+			 * cantidad de calificaciones que se han sumado (modulos)
+			 */
+
+			double promedio = suma / cantidad;
+
+			// Mostramos por pantalla un mensaje en funcion de la nota obtenida
+			String resultado = "El promedio es: " + promedio + ".\n";
+			if (promedio >= 5) {
+				resultado += "Aprobado";
+			} else {
+				resultado += "Suspenso";
+			}
+
+			return resultado;
+
+		} catch (NumberFormatException e) { // Capturamos la excepcion si algun valor no es valido
+
+			return "Error: Asegúrate de introducir solo números separados por comas.";
+		}
+	}
+
 }
