@@ -1,5 +1,6 @@
 package com.ejercicio.estructuras.controlador;
 
+import org.springframework.http.MediaType; //Especificamos el tipo de contenido de respuesta (texto plano)
 import org.springframework.web.bind.annotation.PostMapping; //Anotacion para mapear peticiones HTTP POST a los metodos del Controlador
 import org.springframework.web.bind.annotation.RequestParam; //Anotacion para extraer parametros de la solicitud HTTP
 import org.springframework.web.bind.annotation.RestController; //Marcamos la clase como un controlador REST que devuelve datos directamente en el cuerpo de la respuesta
@@ -28,6 +29,32 @@ public class ControladorEjercicios {
 			mensaje = "El número " + numero + " es impar";
 		}
 		return mensaje;
+	}
+
+	/**
+	 * Generamos la tabla de multiplicar de un número del 1 al 10.
+	 * 
+	 * Este método procesa una solicitud HTTP POST en la ruta `/tablaMultiplicar`.
+	 * Recibe un número como parámetro y construye una tabla de multiplicar en
+	 * formato de texto plano. El resultado incluye las multiplicaciones desde 1
+	 * hasta 10 para el número proporcionado.
+	 * 
+	 * @param numero El número entero del cual se generará la tabla de multiplicar.
+	 * @return La tabla de multiplicar del número recibido, como texto plano.
+	 */
+
+	@PostMapping(value = "/tablaMultiplicar", produces = MediaType.TEXT_PLAIN_VALUE)
+
+	public String tabla(@RequestParam int numero) {
+		String resultado = "Tabla de multiplicar del " + numero + ":\n"; // Inicializamos la variable resultado con el
+																			// encabezado correspondiente
+		resultado += "--------------------\n";
+
+		for (int i = 1; i <= 10; i++) { // Generamos las multiplicaciones del 1 al 10 con for
+			resultado += numero + " x " + i + " = " + (numero * i) + "\n";
+		}
+
+		return resultado; // Devolvemos la tabla como texto plano
 	}
 
 }
