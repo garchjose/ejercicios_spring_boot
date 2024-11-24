@@ -173,4 +173,38 @@ public class ControladorEjercicios {
 		return mensajeCalculo;
 	}
 
+	/**
+	 * Capturamos la puntuación de satisfacción y devuelve un mensaje personalizado
+	 * según la puntuación. Este método procesa una solicitud HTTP POST en la ruta
+	 * `/encuesta`.
+	 *
+	 * @param satisfaccion La puntuación de satisfacción enviada desde el formulario
+	 *                     (1-5).
+	 * @return Un mensaje de agradecimiento personalizado según la puntuación.
+	 */
+	@PostMapping("/encuesta")
+	public String procesarEncuesta(@RequestParam int satisfaccion) {
+
+		String mensaje; // Generamos un mensaje según la puntuación
+
+		switch (satisfaccion) {
+		case 1:
+		case 2:
+			mensaje = "Lamentamos mucho que no estés satisfecho. Gracias por participar en la encuesta.";
+			break;
+		case 3:
+			mensaje = "Gracias por tu opinión. Seguiremos trabajando para mejorar.";
+			break;
+		case 4:
+		case 5:
+			mensaje = "¡Nos alegra saber que estás satisfecho! Gracias por tu apoyo.";
+			break;
+		default:
+			mensaje = "Error inesperado.";
+		}
+
+		return mensaje;
+
+	}
+
 }
