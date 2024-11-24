@@ -120,4 +120,57 @@ public class ControladorEjercicios {
 		}
 	}
 
+	/**
+	 * Calculamos el Índice de Masa Corporal (IMC) y determinamos la categoría
+	 * correspondiente.
+	 * 
+	 * Este método procesa una solicitud HTTP POST en la ruta `/calcularIMC`. Recibe
+	 * como parámetros el peso (en kilogramos) y la altura (en metros) del usuario,
+	 * calcula el valor del IMC y devuelve un mensaje indicando el IMC y la
+	 * categoría a la que pertenece.
+	 * 
+	 * Categorías del IMC:
+	 * 
+	 * - Bajo peso: IMC < 18.5 - Normal: 18.5 ≤ IMC < 25 - Sobrepeso: 25 ≤ IMC ≤ 30
+	 * - Obesidad: IMC > 30
+	 * 
+	 * @param peso   El peso del usuario en kilogramos (double).
+	 * @param altura La altura del usuario en metros (double).
+	 * @return Un mensaje de texto en formato plano indicando el IMC calculado (con
+	 *         dos decimales) y la categoría correspondiente.
+	 */
+
+	@PostMapping(value = "/calcularIMC", produces = MediaType.TEXT_PLAIN_VALUE)
+
+	public String calcularIMC(@RequestParam double peso, @RequestParam double altura) {
+
+		altura = altura / 100; // Convertimos la altura de centímetros a metros (dividimos por 100).
+
+		double valorImc = peso / (altura * altura); // Calculamos el Índice de Masa Corporal (IMC) usando la fórmula:IMC
+													// = peso / (altura^2)
+
+		String mensajeCalculo = "Tu índice de masa corporal es de " + String.format("%.2f", valorImc)
+				+ ", que corresponde a una categoría ";
+
+		// Añadimos al mensaje la categoria en funcion del valor del IMC
+		if (valorImc < 18.5) {
+
+			mensajeCalculo += "bajo peso";
+
+		} else if (valorImc > 18.5 && valorImc < 25) {
+
+			mensajeCalculo += "normal";
+
+		} else if (valorImc >= 25 && valorImc <= 30) {
+
+			mensajeCalculo += "sobrepeso";
+
+		} else {
+
+			mensajeCalculo += "Obesidad";
+		}
+		// Devolvemos el mensaje completo, indicando el IMC y su categoria
+		return mensajeCalculo;
+	}
+
 }
