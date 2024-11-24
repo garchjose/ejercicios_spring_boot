@@ -275,4 +275,34 @@ public class ControladorEjercicios {
 
 	}
 
+	/**
+	 * Calculamos el factorial de un número ingresado por el usuario.
+	 *
+	 * Este método procesa una solicitud HTTP POST en la ruta `/factorial`. Recibe
+	 * un número entero positivo como parámetro, calcula su factorial utilizando una
+	 * función auxiliar y devuelve el resultado.
+	 *
+	 * @param numero El número entero del cual se calculará el factorial.
+	 * @return Una cadena de texto indicando el resultado del factorial.
+	 */
+	@PostMapping(value = "/factorial", produces = MediaType.TEXT_PLAIN_VALUE)
+	public String calcularFactorial(@RequestParam int numero) {
+
+		double resultado = factorial(numero);
+		return "El factorial de " + numero + " es: " + resultado;
+	}
+
+	/**
+	 * Función auxiliar para calcular el factorial de un número.
+	 *
+	 * @param numero El número entero para el cual se calcula el factorial.
+	 * @return El factorial del número como un valor de tipo double.
+	 */
+	private double factorial(int numero) {
+		if (numero == 0 || numero == 1) {
+			return 1;
+		}
+		return numero * factorial(numero - 1);
+	}
+
 }
