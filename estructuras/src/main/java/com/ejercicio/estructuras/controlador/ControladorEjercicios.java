@@ -245,4 +245,34 @@ public class ControladorEjercicios {
 		return "Contraseña generada: " + contrasena.toString();
 	}
 
+	/**
+	 * Generamos la sumatoria desde 1 hasta el numero indicado por el usuario.
+	 * 
+	 * Este método procesa una solicitud HTTP POST en la ruta `/sumatoria. Recibe
+	 * como parámetro un número entero que indica hasta que numero sumamos, y
+	 * devuelve la suma desde 1 hasta el numero introducido por el usuario.
+	 * 
+	 * @param numero el número entero hasta el cual se deseamos calcular la suma
+	 *               acumulativa.
+	 * @return una cadena de texto indicando el resultado de la sumatoria
+	 *         acumulativa.
+	 */
+
+	@PostMapping(value = "/sumatoria", produces = MediaType.TEXT_PLAIN_VALUE)
+
+	public String sumatoria(@RequestParam int numero) {
+		// Inicializamos la variable suma para acumular el total de la sumatoria.
+		int suma = 0;
+		// Variable que almacenará el mensaje final a devolver.
+		String mensaje = " ";
+		// Recorremos desde 1 hasta el número ingresado, sumando cada valor a la
+		// variable suma.
+		for (int i = 1; i <= numero; i++) {
+			suma += i;
+		}
+		// Construimos el mensaje final con el resultado de la sumatoria acumulativa.
+		return mensaje = "La suma acumulativa de 1 a " + numero + " es: " + suma;
+
+	}
+
 }
